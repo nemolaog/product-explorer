@@ -1,19 +1,12 @@
-import { useState } from 'react'
-import './App.css'
+import { RouterProvider } from 'react-router-dom';
+import router from './routes.tsx';
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-      <>
-        <h1>eBay Product Catalog</h1>
-        <div className="card">
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-          </button>
+    return (
+        <div className="min-h-screen bg-gray-50">
+            <RouterProvider router={router} />
         </div>
-      </>
-  )
+    );
 }
 
-export default App
+export default App;
