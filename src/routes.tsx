@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import ProductsPage from './pages/ProductsPage.tsx';
+import ProductsPage from './pages/ProductDetail/ProductsPage.tsx';
 
 const router = createBrowserRouter([
     {
