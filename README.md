@@ -1,6 +1,6 @@
 # Introduction
 
-This project is for warmming up my skill.
+This project is for warmming up my skill and learn tailwind at the same time.
 
 # React + Vite
 
