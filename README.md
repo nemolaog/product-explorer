@@ -1,6 +1,6 @@
 # Introduction
 
-This project is for warmming up my skill and learn tailwind at the same time.
+This project is for warmming up my skill and learn tailwind at the same time. (Using Tailwind3 because tailwind4 is not Incompatible with vite8)
 
 # React + Vite
 
