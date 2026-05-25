@@ -31,7 +31,7 @@ function calculateCartTotals(items: CartItem[]) {
         totalAmount,
     }
 }
-
+const a = 0
 /**
  * Global cart store
  * Manages cart items, quantities, and derived cart totals.
