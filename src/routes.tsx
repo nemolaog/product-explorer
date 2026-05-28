@@ -4,6 +4,7 @@ import ProductsPage from './pages/Products/ProductsPage';
 import ProductDetailPage from './pages/ProductDetail/ProductDetailPage';
 import NotFound from './pages/NotFound';
 import Layout from './components/Layout/Layout';
+import CartPage from './pages/Cart/CartPage';
 
 
 const router = createBrowserRouter([
@@ -11,18 +12,21 @@ const router = createBrowserRouter([
         path: '/',
         element: <Layout/>,
         children: [
-
+            {
+                path: 'cart',
+                element: <CartPage />,//cart
+            },
             {
                 path: '/',
-                element: <Home/>, // 首页
+                element: <Home/>, // homepage
             },
             {
                 path: '/products',
-                element: <ProductsPage/>, // 产品列表页
+                element: <ProductsPage/>, // product list page
             },
             {
                 path: '/products/:id',
-                element: <ProductDetailPage/>, // 产品详情页
+                element: <ProductDetailPage/>, // solo product page
             },
             {
                 path: '*', // 404
