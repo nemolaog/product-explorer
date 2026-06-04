@@ -2,6 +2,10 @@ import ProductCard from '../../components/ProductCard/ProductCard.tsx';
 import {mockProducts} from '../../data/products.ts';
 import {useMemo, useState} from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import ProductFilters from '../../components/ProductFilters/ProductFilters';
+import { SortOption } from '../../components/ProductFilters/ProductFilters.type.ts';
+
+
 
 
 /**
@@ -10,34 +14,57 @@ import SearchBar from '../../components/SearchBar/SearchBar';
  */
 function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [sortOption, setSortOption] = useState<SortOption>('default');
+
+  /**
+   * Creates a unique category list from product data.
+   */
+  const categories = useMemo(() => {
+    return Array.from(
+      new Set(mockProducts.map((product) => product.category))
+    );
+  }, []);
+
   /**
    * Filters products based on the current search query.
-   * The search checks product title, category, and description.
+   * The search checks product title, category, and description. and sort option.
    */
   const filteredProducts = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
 
-    if (!normalizedQuery) {
-      return mockProducts
+    let products = mockProducts.filter((product) => {
+      const title = product.title.toLowerCase();
+      const category = product.category.toLowerCase();
+      const description = product.description.toLowerCase();
+
+      const matchesSearch =
+        !normalizedQuery ||
+        title.includes(normalizedQuery) ||
+        category.includes(normalizedQuery) ||
+        description.includes(normalizedQuery);
+
+      const matchesCategory =
+        selectedCategory === 'all' ||
+        product.category === selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+
+    if (sortOption === 'price-low-high') {
+      products = [...products].sort((a, b) => a.price - b.price);
     }
-    return mockProducts.filter((product) => {
-      const title = product.title.toLowerCase()
-      const category = product.category.toLowerCase()
-      const description = product.description.toLowerCase()
 
-      return (
-        title.includes(normalizedQuery) || category.includes(normalizedQuery) || description.includes(normalizedQuery)
+    if (sortOption === 'price-high-low') {
+      products = [...products].sort((a, b) => b.price - a.price);
+    }
 
-      )
-
-    })
-
-  }, [searchQuery])
+    return products;
+  }, [searchQuery, selectedCategory, sortOption]);
 
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-
       {/* Page title */}
       <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
         Product Explorer
@@ -51,6 +78,14 @@ function ProductsPage() {
         value={searchQuery}
         onChange={setSearchQuery}
         placeholder="Search by title, category, or description..."
+      />
+      {/* Product filter and sort controls */}
+      <ProductFilters
+        categories={categories}
+        selectedCategory={selectedCategory}
+        sortOption={sortOption}
+        onCategoryChange={setSelectedCategory}
+        onSortChange={setSortOption}
       />
       {/* Search result count */}
       <p className="text-sm text-gray-500 mb-4">
@@ -73,7 +108,7 @@ function ProductsPage() {
           </h2>
 
           <p className="text-gray-600">
-            Try searching with a different keyword.
+            Try changing your search keyword or filter option.
           </p>
         </div>
       )}
