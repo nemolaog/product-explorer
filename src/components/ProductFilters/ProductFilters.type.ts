@@ -12,4 +12,5 @@ export interface ProductFiltersProps {
   sortOption: SortOption;
   onCategoryChange: (category: string) => void;
   onSortChange: (sortOption: SortOption) => void;
+  onResetFilters: () => void;
 }

@@ -6,8 +6,6 @@ import ProductFilters from '../../components/ProductFilters/ProductFilters';
 import { SortOption } from '../../components/ProductFilters/ProductFilters.type.ts';
 
 
-
-
 /**
  * ProductsPage component
  * Responsible for rendering the product catalog page
@@ -25,6 +23,15 @@ function ProductsPage() {
       new Set(mockProducts.map((product) => product.category))
     );
   }, []);
+
+  /**
+   * Resets search, category filter, and sorting to their default values.
+   */
+  function handleResetFilters() {
+    setSearchQuery('');
+    setSelectedCategory('all');
+    setSortOption('default');
+  }
 
   /**
    * Filters products based on the current search query.
@@ -86,6 +93,7 @@ function ProductsPage() {
         sortOption={sortOption}
         onCategoryChange={setSelectedCategory}
         onSortChange={setSortOption}
+        onResetFilters={handleResetFilters}
       />
       {/* Search result count */}
       <p className="text-sm text-gray-500 mb-4">
