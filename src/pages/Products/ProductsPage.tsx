@@ -4,7 +4,10 @@ import {useMemo, useState} from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import ProductFilters from '../../components/ProductFilters/ProductFilters';
 import { SortOption } from '../../components/ProductFilters/ProductFilters.type.ts';
-
+import {
+  filterProducts,
+  getProductCategories,
+} from '../../utils/productFilters';
 
 /**
  * ProductsPage component
@@ -19,9 +22,7 @@ function ProductsPage() {
    * Creates a unique category list from product data.
    */
   const categories = useMemo(() => {
-    return Array.from(
-      new Set(mockProducts.map((product) => product.category))
-    );
+    return getProductCategories(mockProducts);
   }, []);
 
   /**
@@ -38,35 +39,12 @@ function ProductsPage() {
    * The search checks product title, category, and description. and sort option.
    */
   const filteredProducts = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase();
-
-    let products = mockProducts.filter((product) => {
-      const title = product.title.toLowerCase();
-      const category = product.category.toLowerCase();
-      const description = product.description.toLowerCase();
-
-      const matchesSearch =
-        !normalizedQuery ||
-        title.includes(normalizedQuery) ||
-        category.includes(normalizedQuery) ||
-        description.includes(normalizedQuery);
-
-      const matchesCategory =
-        selectedCategory === 'all' ||
-        product.category === selectedCategory;
-
-      return matchesSearch && matchesCategory;
+    return filterProducts({
+      products: mockProducts,
+      searchQuery,
+      selectedCategory,
+      sortOption,
     });
-
-    if (sortOption === 'price-low-high') {
-      products = [...products].sort((a, b) => a.price - b.price);
-    }
-
-    if (sortOption === 'price-high-low') {
-      products = [...products].sort((a, b) => b.price - a.price);
-    }
-
-    return products;
   }, [searchQuery, selectedCategory, sortOption]);
 
 
