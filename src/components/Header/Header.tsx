@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../../store/cartStore';
-
+import useScrollDirection from "../../hooks/useScrollDirection.ts";
 /**
  * Header component
  * Displays main navigation and current cart item count.
@@ -8,8 +8,13 @@ import { useCartStore } from '../../store/cartStore';
 
 function Header() {
     const totalItems = useCartStore((state) => state.totalItems);
+    const scrollDirection = useScrollDirection();
+    const headerVisibilityClass =
+      scrollDirection === 'down'
+        ? '-translate-y-full'
+        : 'translate-y-0';
     return(
-        <header className="bg-white border-b border-gray-200">
+        <header className={`sticky top-0 z-50 bg-white border-b border-gray-200 transition-transform duration-300 ${headerVisibilityClass}`}>
             <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
                 {/* App logo / home link */}
                 <Link
