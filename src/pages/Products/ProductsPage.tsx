@@ -8,7 +8,7 @@ import {
   filterProducts,
   getProductCategories,
 } from '../../utils/productFilters';
-
+import EmptyState from "../../components/EmptyState.tsx";
 /**
  * ProductsPage component
  * Responsible for rendering the product catalog page
@@ -88,15 +88,10 @@ function ProductsPage() {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-            No products found
-          </h2>
-
-          <p className="text-gray-600">
-            Try changing your search keyword or filter option.
-          </p>
-        </div>
+        <EmptyState
+          title="No products found"
+          description="Try changing your search keyword or filter option."
+        />
       )}
 
     </div>

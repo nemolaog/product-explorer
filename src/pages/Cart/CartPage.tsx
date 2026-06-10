@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useCartStore } from '../../store/cartStore';
 import CartItem from '../../components/CartItem/CartItem';
 import CartSummary from '../../components/CartSummary/CartSummary';
-
+import EmptyState from "../../components/EmptyState.tsx";
 /**
  * CartPage component
  * Displays all products currently added to the shopping cart.
@@ -24,17 +24,18 @@ function CartPage() {
                     Shopping Cart
                 </h1>
 
-                <div className="bg-white rounded-xl shadow-sm p-8 text-center">
-                    <p className="text-xl text-gray-700 mb-6">
-                        Your cart is empty.
-                    </p>
-                </div>
-                <Link
+              <EmptyState
+                title="Your cart is empty"
+                description="Add some products to your cart before checking out."
+                action={
+                  <Link
                     to="/products"
                     className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-                >
+                  >
                     Browse Products
-                </Link>
+                  </Link>
+                }
+              />
             </div>
         )
     }
